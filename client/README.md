@@ -1,70 +1,74 @@
-# Getting Started with Create React App
+# Client (React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This folder contains the React frontend for `DEX_Nova_MVP` (Create React App).
 
-## Available Scripts
+Quick summary:
+- Development port: `3006` (see `client/package.json`)
+- The `proxy` field in `client/package.json` forwards API requests to `http://localhost:4000` in development
 
-In the project directory, you can run:
+## Prerequisites
 
-### `npm start`
+- Node.js (>=14) and npm
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Install
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+From the project root:
 
-### `npm test`
+```bash
+npm install --prefix client
+# or
+cd client && npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Available scripts
 
-### `npm run build`
+From project root:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm run client         # start the client dev server (runs `npm start` inside client/)
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+From inside `client/`:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm start              # start dev server (Windows: port set via package.json)
+npm run build          # build production bundle
+npm test               # run tests
+npm run analyze        # analyze build bundles (optional)
+```
 
-### `npm run eject`
+## Environment & proxy
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Development uses the `proxy` in `client/package.json` to forward API calls to the backend at `http://localhost:4000`.
+- For production, prefer using an explicit `REACT_APP_API_URL` env var at build time rather than relying on `proxy`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Example (build-time env):
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```bash
+REACT_APP_API_URL=https://api.example.com npm run build
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Build & serve for production
 
-## Learn More
+```bash
+# build the frontend
+npm run build --prefix client
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+# serve the build folder with a static server (example: serve)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+serve -s client/build -l 3006
+```
 
-### Code Splitting
+## Troubleshooting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- If the client can't reach the API, confirm backend is running on `http://localhost:4000` or update `proxy` in `client/package.json`.
+- On non-Windows shells (WSL/macOS), set `PORT=3006` before starting the dev server.
 
-### Analyzing the Bundle Size
+## Next steps I can do for you
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Add `client/.env.example` with `REACT_APP_*` variables.
+- Replace `proxy` usage with `REACT_APP_API_URL` in the frontend code and add docs.
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+If you'd like a `client/.env.example` generated, tell me the variables you'd like included (e.g. `REACT_APP_API_URL`, `REACT_APP_MAP_KEY`).
